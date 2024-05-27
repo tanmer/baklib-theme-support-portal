@@ -1,0 +1,175 @@
+
+<div class="bg-accent/30 dark:bg-slate-700 sticky top-7">
+  <div class="py-2 mx-auto truncate max-w-7xl">
+    {% render 'breadcrumb', breadcrumb: page.breadcrumb %}
+  </div>
+</div>
+
+<div class="max-w-3xl lg:max-w-7xl mx-auto my-4 p-2 lg:my-8 lg:p-8 rounded-lg dark:bg-navy-450">
+  <!-- Main 3 column grid -->
+  <div class="flex">
+    <!-- Left column -->
+    <div class="grow">
+      <section aria-labelledby="section-1-title" class="px-4 lg:px-0">
+        <h2 class="sr-only" id="section-1-title">{{ page.link_text  }}</h2>
+        <div class="overflow-auto">
+
+          <h1 class="mb-4 font-bold leading-normal md:mb-8 text-3xl md:text-4xl md:text-heading-1 dark:text-white">
+            {{ page.settings.title }}</h1>
+
+          <div class="flex items-center justify-between my-4">
+            <div class="flex items-center gap-3">
+              {% assign avatar_url = 'images/icons/icon.svg' | asset_url %}
+              <img src="{{ page.author.avatar_url | default: avatar_url }}" class="w-10 h-10 rounded-full" />
+              <div>
+                <p class="text-lead line-clamp-2 font-bold mb-[3px] text-gray-900 dark:text-gray-500 text-heading-6">
+                  {{ page.author.name }}
+                </p>
+                <p class="text-sm font-bold text-gray-500 text-md">{{ page.published_at | date: "%Y-%m-%d" }}</p>
+              </div>
+            </div>
+            <span class=" inline-block bg-bg-6 text-gray-500py-[14px] px-[28px] rounded-[50px] text-[14px] leading-[14px]">{{ page.visits_count }} Visits</span>
+          </div>
+
+          {% if page.settings.thumb_image_url %}
+            <div class="p-8 lg:p-16 rounded-md bg-gradient-to-r from-orange-100 from-10% via-blue-100 via-30% to-teal-100 to-90%">
+              <img class="w-full object-cover rounded-2xl mb-[30px] lg:mb-0 " src="{{ page.settings.thumb_image_url }}" alt="Baklib">
+            </div>
+          {% endif %}
+
+          <article class="p-4 text-lg leading-8 rounded-lg md:py-8 ProseMirror prose lg:prose-xl dark:bg-slate-600 dark:text-white">
+            {{ page.settings.content }}
+          </article>
+
+
+          <!--Tags-->
+          {% if page.settings.tags.size > 0 %}
+            <div class="flex items-center py-4 mt-4 space-x-2 text-xs font-light md:mt-8 shrink-0 ">
+                <p>{{ 'generic.tags' | t }}： </p>
+                {% for tag in page.settings.tags %}
+                    <a href="{{ tag.path }}" style="background-color: {{ tag.color }}" class="px-2 py-1 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2">
+                    {{ tag.name }}
+                    </a>
+                {% endfor %}
+            </div>
+          {% endif %}
+
+          <!-- Feedback -->
+          <div class="py-8 lg:flex lg:items-center lg:justify-between">
+            <div class="text-lg font-bold text-slate-800 dark:text-slate-200">{{ 'generic.feedback' | t }}</div>
+            <div class="flex items-center space-x-4">
+              {% render "feedback_form", page: page %}
+            </div>
+          </div>
+
+          <!-- Post Section -->
+          <div class="items-center text-center print:hidden">
+            <!-- 上下页 -->
+            <div class="items-center justify-between py-8 space-y-3 lg:flex lg:space-y-0 lg:space-x-4">
+              <!-- Prev link -->
+              {% if page.prev_page %}
+                <a
+                  href="{{ page.prev_page.path }}"
+                  data-turbo="false"
+                  class="block w-full p-3 text-left border rounded-md lg:w-1/2 border-slate-200"
+                >
+                  <div class="mb-2">{{ 'generic.prev_page' | t }}</div>
+                  <div class="text-primary dark:text-slate-200">
+                    <div
+                      class="flex items-center space-x-2 line-clamp-1"
+                    >
+                      <svg
+                        t="1697772474680"
+                        class="w-4 h-4 icon"
+                        viewBox="0 0 1024 1024"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        p-id="13457"
+                      >
+                        <path d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8c-16.4 12.8-16.4 37.5 0 50.3l450.8 352.1c5.3 4.1 12.9 0.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z" p-id="13458" fill="currentColor"></path>
+                      </svg>
+                      <span class="line-clamp-1">{{ page.prev_page.link_text }}</span>
+                    </div>
+                  </div>
+                </a>
+              {% endif %}
+              <!-- Next link -->
+              {% if page.next_page %}
+                <a
+                  href="{{ page.next_page.path }}"
+                  data-turbo="false"
+                  class="block w-full p-3 text-left border rounded-md lg:text-right lg:w-1/2 border-slate-200"
+                >
+                  <div class="mb-2">{{ 'generic.next_page' | t }}</div>
+                  <div class="text-primary dark:text-slate-200">
+                    <div
+                      class="flex items-center space-x-2 lg:justify-end line-clamp-1"
+                    >
+                      <span class="line-clamp-1">{{ page.next_page.link_text }}</span>
+                      <svg
+                        t="1697772474680"
+                        class="w-4 h-4 rotate-180 icon"
+                        viewBox="0 0 1024 1024"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        p-id="13457"
+                      >
+                        <path d="M724 218.3V141c0-6.7-7.7-10.4-12.9-6.3L260.3 486.8c-16.4 12.8-16.4 37.5 0 50.3l450.8 352.1c5.3 4.1 12.9 0.4 12.9-6.3v-77.3c0-4.9-2.3-9.6-6.1-12.6l-360-281 360-281.1c3.8-3 6.1-7.7 6.1-12.6z" p-id="13458" fill="currentColor"></path>
+                      </svg>
+                    </div>
+                  </div>
+                </a>
+                {% # else %}
+                {% comment %} <div class="flex w-1/2 text-sm border border-slate-200">暂无内容</div> {% endcomment %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Right column -->
+    <div class="hidden lg:block flex-none w-64">
+      <section aria-labelledby="section-2-title">
+        <div class="overflow-hidden">
+          {{ site.settings.post_ad }}
+          {% render 'sidebar', settings: site.settings %}
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "更新日志",
+    "thumb_url": "images/theme/changelog.png",
+    "description": "更新日志时间轴显示",
+    "sub_page_templates": [""],
+    "settings": [
+      {
+        "id": "date",
+        "type": "date",
+        "label": "发布日期"
+      },
+      {
+          "id": "title",
+          "type": "text",
+          "label": "t:settings_schema.page.settings.title.label"
+      },
+      {
+        "id": "thumb_image_url",
+        "type": "image_picker",
+        "ratio": "6:4",
+        "width": 640,
+        "label": "封面图"
+      },
+      {
+          "id": "content",
+          "type": "richtext",
+          "label": "t:settings_schema.page.settings.content.label"
+      }
+    ]
+  }
+{% endschema%}

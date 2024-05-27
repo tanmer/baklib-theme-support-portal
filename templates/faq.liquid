@@ -1,0 +1,119 @@
+{% assign pages = page.children_in_list %}
+{% assign thumb = 'images/thumbnail.png' | asset_url %}
+
+{% comment %} file:///Users/songxuejiang/sites/themes.dev-%E4%BB%98%E8%B4%B92023/Runway-UIBak/collections/support-article.html {% endcomment %}
+
+<!-- Page header -->
+<div class="mx-auto max-w-7xl px-4 pt-6 sm:px-8 lg:pt-12 lg:px-12">
+  <div class="flex flex-col w-full space-y-6 lg:justify-between lg:items-end lg:flex-row">
+    <div class="max-w-2xl">
+      <div class="flex items-center space-x-1">
+        {% if page.settings.icon %}
+          <span class="relative w-12 h-12 bg-secondary/20 rounded-full mr-2">
+            <img src="{{ page.settings.icon }}" class="h-10"/>
+          </span>
+        {% endif %}
+        <span class="block text-sm font-bold tracking-widest uppercase text-slate-600">{{ page.settings.title }}</span>
+      </div>
+      <h1 class="mt-3 text-4xl font-bold text-primary md:text-5xl">{{ page.settings.description }}</h1>
+    </div>
+  </div>
+</div>
+<!--/ Page header -->
+
+<div class="flex-1 px-4 pt-6 lg:pb-24 sm:px-8 lg:pt-12 lg:px-12">
+  <div class="flex flex-col justify-between mx-auto max-w-7xl md:flex-row">
+    <!-- sidebar categories -->
+    {% if false %}
+    <aside class="order-2 pt-4 pl-4 pr-6 mt-8 lg:w-96 md:order-1 md:mt-0 md:pl-0">
+      <span class="block mb-4 text-xs font-bold tracking-widest uppercase text-slate-500">Categories</span>
+      <nav class="space-y-3">
+        <a href="#" class="block hover:text-primary text-slate-500 whitespace-nowrap">Automated Follow Up</a>
+        <a href="#" class="block font-semibold hover:text-primary text-slate-500 whitespace-nowrap before:border-2 before:border-primary before:-left-2 before:relative">Payment Services</a>
+        <a href="#" class="block hover:text-primary text-slate-500 whitespace-nowrap">Credit Scores</a>
+        <a href="#" class="block hover:text-primary text-slate-500 whitespace-nowrap">Internal Notes</a>
+        <a href="#" class="block hover:text-primary text-slate-500 whitespace-nowrap">Dialogue</a>
+        <a href="#" class="block hover:text-primary text-slate-500 whitespace-nowrap">Payment Plans</a>
+        <a href="#" class="block hover:text-primary text-slate-500 whitespace-nowrap">Invoicing</a>
+        <a href="#" class="block hover:text-primary text-slate-500 whitespace-nowrap">Financing</a>
+      </nav>
+    </aside>
+    {% endif %}
+    <!-- sidebar categories -->
+
+    <!-- main content -->
+    <main class="order-1 w-full md:order-2">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {%# 分页 %}
+        {% paginate_tag pages, per: 24 %}
+          {% for sub_page in pages %}
+            <!-- item -->
+            <div class="flex items-start w-full max-w-3xl px-6 py-6 space-x-4 bg-white rounded-md shadow-lg shadow-slate-200"  x-data="{isOpen : false }">
+              <div class="flex items-center justify-center w-8 h-8 mt-1 bg-blue-100 rounded-full" >
+                <div x-show="isOpen">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M20 12H4" />
+                  </svg>
+                </div>
+                <div x-show="!isOpen">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M12 4v16m8-8H4" />
+                  </svg>
+                </div>
+              </div>
+              <div class="flex-1">
+                <button @click="isOpen = !isOpen" class="block w-full py-1 text-sm font-semibold text-left text-gray-800 md:text-base hover:text-primary">
+                  {{ sub_page.settings.title }}</button>
+                <div class="mt-2" x-show="isOpen" @click.away="isOpen = !isOpen">
+                  <div class="ProseMirror text-gray-500">
+                    {{ sub_page.settings.content }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--/ item-->
+          {% endfor %}
+          <!-- Pagination -->
+          {% render 'paginate', paginate: paginate %}
+        {% endpaginate_tag %}
+      </div>
+    </main>
+    <!--/ main content -->
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "FAQ",
+    "thumb_url": "images/theme/faq.png",
+    "description": "FAQ常见问题折叠列表",
+    "sub_page_templates": ["faq_detail"],
+    "settings": [
+      {
+        "id": "title",
+        "type": "text",
+        "placeholder": "",
+        "label": "标题"
+      },
+      {
+        "id": "description",
+        "type": "textarea",
+        "label": "描述"
+      },
+      {
+          "id": "icon",
+          "type": "image_picker",
+          "ratio": "1:1",
+          "width": 60,
+          "label": "图标"
+      },
+      {
+        "id": "recommend_to_index",
+        "type": "checkbox",
+        "label": "推荐到首页展示",
+        "default": false
+      }
+    ]
+  }
+{% endschema%}

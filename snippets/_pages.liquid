@@ -1,0 +1,21 @@
+{% assign pages = page.children_in_list | order: '-created_at' | limit: 6 %}
+<a name="pages"></a>
+
+<div class="px-4 mx-auto font-normal wrapper max-w-7xl md:px-0">
+    {% if show_header != false %}
+      <div class="my-8 md:my-12">
+        <h2 class="text-2xl font-semibold tracking-tight sm:text-3xl">{{ page.link_text | default: 'Baklib 博客' }}</h2>
+        <p class="mt-2 text-lg leading-8 text-gray-600">{{ page.settings.description }}</p>
+      </div>
+    {% endif  %}
+
+    {% paginate_tag pages, per: 8 %}
+      <div class="lg:grid lg:grid-cols-3 lg:gap-x-5 xl:gap-x-[30px] gap-y-[50px] xl:gap-y-[87px]">
+        {% for sub_page in pages %}
+          {% render 'page', page: sub_page %}
+        {% endfor %}
+      </div>
+    <!-- Pagination -->
+    {% render 'paginate', paginate: paginate %}
+    {% endpaginate_tag %}
+</div>

@@ -1,0 +1,7 @@
+<div class="w-full">
+  {%- if site.settings.footer_menu_html == "" -%}
+    {% render "footer1" %}
+  {% else %}
+    {{ site.settings.footer_menu_html }}
+  {% endif %}
+</div>

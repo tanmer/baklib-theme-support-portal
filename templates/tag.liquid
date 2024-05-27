@@ -1,0 +1,23 @@
+<div class="">
+  <div class="max-w-7xl p-4 mx-auto flex space-x-2">
+    <div class="space-y-2 lg:space-y-4 w-0 flex-grow">
+      <!-- tag name -->
+      <div class="rounded shadow-md">
+        <div class="h-5 rounded-t" style="background-color: {{ tag.color }}"></div>
+        <div class="px-3 py-6 text-xl font-black bg-white rounded-b dark:bg-slate-500">
+          <span class="w-2 h-2 rounded-full shrink-0" style="background-color: {{ tag.color }}"></span>
+          <span class="flex-grow w-0 break-words" style="color: {{ tag.color }}"> # {{ tag.name }}</span>
+        </div>
+      </div>
+      <!-- filters by tag name -->
+      <ul role="list" class="space-y-3 lg:space-y-5">
+        {% paginate_tag tag.pages, as: 'pages' %}
+          {% render "collapse_pages", pages: pages, tag_name: tag.name %}
+
+          {% render 'paginate', paginate: paginate %}
+        {% endpaginate_tag %}
+      </ul>
+    </div>
+
+  </div>
+</div>

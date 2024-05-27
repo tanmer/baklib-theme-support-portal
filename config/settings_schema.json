@@ -1,0 +1,188 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "docs",
+    "theme_label": "t:theme_label",
+    "theme_version": "1.0.0",
+    "theme_scope": "cms",
+    "theme_author": "Baklib",
+    "theme_description": "t:theme_description",
+    "theme_documentation_url": "https://help.baklib.cn/themes/help-center",
+    "theme_support_url": "https://help.baklib.cn/themes/help-center/settings",
+    "theme_thumb_url": "images/theme/thumb.png",
+    "theme_preview_images": [
+      "images/theme/index.png",
+      "images/theme/knowledge.png",
+      "images/theme/videos.png",
+      "images/theme/blog.png",
+      "images/theme/faq.png",
+      "images/theme/page.png"
+    ],
+    "theme_languages": [
+      {
+        "name": "中文简体",
+        "value": "zh-CN"
+      },
+      {
+        "name": "English",
+        "value": "en-US"
+      },
+      {
+        "name": "Germany",
+        "value": "de"
+      },
+      {
+        "name": "France",
+        "value": "fr"
+      }
+    ],
+    "recommendations": {
+      "color_schemas": {
+        "fashion": {
+          "name": "时尚",
+          "colors": {
+            "--theme-color-primary": "#03A9F4",
+            "--theme-color-secondary": "#E91E63",
+            "--theme-color-accent": "#AAAAAA",
+            "--theme-color-info": "#2196F3",
+            "--theme-color-success": "#4CAF50",
+            "--theme-color-warning": "#FFC107"
+          }
+        },
+        "old_school": {
+          "name": "复古",
+          "colors": {
+            "--theme-color-primary": "#9C27B0",
+            "--theme-color-secondary": "#673AB7",
+            "--theme-color-accent": "#AAAAAA",
+            "--theme-color-info": "#418CC8",
+            "--theme-color-success": "#29B52F",
+            "--theme-color-warning": "#FFC107"
+          }
+        }
+      },
+      "initial_pages": {
+        "default": {
+          "name": "Support Site",
+          "default": true,
+          "pages": [
+            {
+              "name": "Support",
+              "slug": "support",
+              "template": "support"
+            },
+            {
+              "name": "Blog",
+              "slug": "blog",
+              "template": "blog"
+            },
+            {
+              "name": "FAQ",
+              "slug": "faq",
+              "template": "faq"
+            },
+            {
+              "name": "Changelog",
+              "slug": "changelog",
+              "template": "changelog"
+            },
+            {
+              "name": "Videos",
+              "slug": "videos",
+              "template": "videos"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "name": "t:settings_schema.generic.name",
+    "settings": [
+      {
+        "id": "hero_image_url",
+        "type": "image_picker",
+        "ratio": "19:6",
+        "width": 900,
+        "label": "t:settings_schema.generic.settings.hero_image_url.label",
+        "info": "t:settings_schema.generic.settings.hero_image_url.info"
+      },
+      {
+        "id": "description",
+        "type": "text",
+        "label": "t:settings_schema.generic.settings.description.label",
+        "default": "👋 What Can We Help?"
+      },
+      {
+        "id": "hot_tags",
+        "label": "t:settings_schema.generic.settings.hot_tags.label",
+        "type": "text",
+        "default": ""
+      },
+      {
+        "id": "copyright_info",
+        "type": "text",
+        "label": "t:settings_schema.generic.settings.copyright_info.label",
+        "default": "t:settings_schema.generic.settings.copyright_info.label"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.generic.header_name",
+    "settings": [
+      {
+        "id": "header_menu_html",
+        "type": "html",
+        "label": "t:settings_schema.generic.settings.header_menu_html.label",
+        "rows": 10,
+        "placeholder": "<a href='#'> title </a>"
+      },
+      {
+        "id": "footer_menu_html",
+        "type": "html",
+        "label": "t:settings_schema.generic.settings.footer_menu_html.label",
+        "rows": 10,
+        "placeholder": "<a href='#'> title </a>"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.generic.head_title",
+    "settings": [
+      {
+        "id": "head_html",
+        "type": "html",
+        "label": "t:settings_schema.generic.settings.head_html.label",
+        "info": "t:settings_schema.generic.settings.head_html.info",
+        "rows": 10,
+        "placeholder": "t:settings_schema.generic.settings.head_html.placeholder"
+      }
+    ]
+  },
+  {
+    "name": "功能定制块",
+    "settings": [
+      {
+        "id": "features_one",
+        "type": "html",
+        "label": "Features One",
+        "rows": 10,
+        "placeholder": "some html code"
+      },
+      {
+        "id": "features_two",
+        "type": "html",
+        "label": "Features Two",
+        "rows": 10,
+        "placeholder": "some html code"
+      },
+      {
+        "id": "features_three",
+        "type": "html",
+        "label": "Features Three",
+        "rows": 10,
+        "placeholder": "some html code"
+      }
+    ]
+  }
+]

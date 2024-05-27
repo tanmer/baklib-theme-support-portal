@@ -1,0 +1,53 @@
+<div class="bg-accent/30 dark:bg-slate-700 sticky top-7">
+  <div class="py-4 mx-auto truncate max-w-7xl">
+    {% render 'breadcrumb', breadcrumb: page.breadcrumb %}
+  </div>
+</div>
+
+<div class="max-w-3xl lg:max-w-7xl mx-auto my-4 p-4 lg:my-8 lg:p-8 rounded-lg dark:bg-navy-450">
+  <!-- Main 3 column grid -->
+  <div class="flex">
+    <!-- Left column -->
+    <div class="grow">
+      <section aria-labelledby="section-1-title" class="px-4 lg:px-0">
+        <h2 class="sr-only" id="section-1-title">{{ page.link_text  }}</h2>
+        <div class="overflow-auto">
+
+          <h1 class="mb-4 font-bold leading-normal md:mb-8 text-3xl md:text-4xl md:text-heading-1 dark:text-white">
+            {{ page.settings.title }}</h1>
+
+          <article class="p-4 text-lg leading-8 rounded-lg md:py-8 ProseMirror lg:prose-xl dark:bg-slate-600 dark:text-white">
+            {{ page.settings.content }}
+          </article>
+
+          <!-- Sub Post Section -->
+          {% render 'pages', page: page, show_header: false %}
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+
+<!--/ article-->
+{% schema %}
+  {
+    "name": "FAQ文章详情",
+    "thumb_url": "images/theme/page.png",
+    "description": " FAQ文章详情模板",
+    "sub_page_templates": [""],
+    "settings": [
+      {
+        "id": "title",
+        "type": "text",
+        "placeholder": "",
+        "label": "FAQ 问题"
+      },
+      {
+        "id": "content",
+        "type": "richtext",
+        "label": "FAQ 回答"
+      }
+    ]
+  }
+{% endschema %}

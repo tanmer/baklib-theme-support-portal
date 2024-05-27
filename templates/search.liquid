@@ -1,0 +1,74 @@
+<section class="relative pt-12 md:pt-[100px]">
+
+  <div class="px-4 mx-auto max-w-7xl sm:px-6">
+    <div class="z-0 w-full">
+      <div class="grid items-center grid-cols-7 gap-4">
+        <div class="col-span-7 md:col-span-3">
+          <nav aria-label="" class="block col-span-7 md:col-span-3" data-turbo="false">
+            <ol class="flex flex-wrap p-0 mt-8 mb-4 space-x-2 bg-transparent">
+              <li class="">
+                <a href="/">{{ 'generic.back' | t }}</a>
+              </li>
+            </ol>
+          </nav>
+          <h3 class="text-2xl font-bold md:mt-10 md:mb-8">
+            {% if search.tag or search.keywords %}
+              <p class="mt-3">
+                {{ 'generic.search' | t }}
+                {% if search.tag %}
+                  <i class="px-2 py-1 rounded" style="background-color: {{ search.tag.color }}">{{ search.tag.name }}</i>
+                {% endif %}
+                {% if search.keywords %}
+                  <span class="text-primary"><i>{{ search.keywords }}</i></span>
+                {% endif %}
+              </p>
+            {% endif %}
+          </h3>
+        </div>
+        {% form_tag 'search', class: "col-span-7 md:col-start-5 md:col-span-3" %}
+          <div class="relative rounded-md shadow-sm">
+            <button type="submit" class="absolute inset-y-0 right-0 flex items-center pl-4 pr-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+              </svg>
+            </button>
+            <input type="text" name="{{form.keywords_field_name}}" value="{{ search.keywords | escape_once }}" placeholder="{{ "search.placeholder" | t }}" class="block w-full h-12 pl-3 pr-10 transition duration-300 ease-in-out bg-white bg-opacity-25 border rounded focus:ring-primary focus:border-primary sm:text-md focus:bg-opacity-60">
+          </div>
+        {% endform_tag %}
+      </div>
+      <div data-more-loader-target="content">
+        {% if search.keywords or search.tag %}
+          {% paginate_tag search.pages, as: 'items', per: 15 %}
+            {% for page in items %}
+              <div class="my-4">
+                <a class="text-xl font-bold" href="{{ page.url }}">
+                  <span>{{ page.link_text | highlight: search.keywords }}</span>
+                </a>
+                <p class="mt-2 text-base text-gray-700">
+                  {{ page.settings.content | strip_html | highlight: search.keywords }}
+                </p>
+                <div class="grid grid-cols-6 gap-4">
+                  <div class="col-span-6 mt-2 mb-0 text-sm text-justify text-gray-400 text-truncate md:col-span-3">
+                    {% render 'breadcrumb', breadcrumb: page.breadcrumb %}
+                  </div>
+                  <p class="hidden col-span-6 mt-2 text-sm italic text-right text-gray-300 md:col-span-3 md:block">
+                    来源: <a href="/0e5f/1205/3577/d08c">http://helperp.kuaidizs.cn/0e5f/1205/3577/d08c</a>
+                  </p>
+                </div>
+              </div>
+              <hr class="border-dashed">
+            {% else %}
+              {% assign message = "empty.name" | t %}
+              {% render 'empty', message: message %}
+            {% endfor %}
+            <div class="mt-8">
+              {% render 'paginate', paginate: paginate %}
+            </div>
+          {% endpaginate_tag %}
+        {% else %}
+          <div class="w-full mx-auto my-8">{{ "search.please_enter_keywords" | t }}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,39 @@
+{
+  "theme_label": "Support Portal",
+  "theme_description": "Support Portal is a powerful and easy-to-use online support platform that includes knowledge base, release logs, FAQ, videos, blogs",
+  "generic": {
+    "close": "Close",
+    "back": "Back",
+    "submit": "Submit",
+    "search": "Search",
+    "popular_search": "Popular Searching: ",
+    "index": "Index",
+    "articles": "Articles",
+    "read_more": "Read More",
+    "404": "404 not found",
+    "403": "403 No access permission",
+    "empty": "content is empty",
+    "copyright": "All rights reserved",
+    "hot_pages": "Hot visit articles",
+    "recent_pages": "Recent articles",
+    "tags": "Tags",
+    "in_page_nav": "Inside Page navigation",
+    "feedback": "Feedback",
+    "feedback_commit": "Content",
+    "feedback_placeholder": "Please enter your feedback",
+    "prev_page": "Previous",
+    "next_page": "Next"
+  },
+  "placeholders": {
+    "search": "Searching...",
+    "input_password": "Please input your password"
+  },
+  "buttons": {
+    "login": "Login",
+    "sso_login": "SSO Login",
+    "baklib_login": "Baklib Account Login"
+  },
+  "prompts": {
+    "page_restricted": "This page can only be accessed with authentication"
+  }
+}

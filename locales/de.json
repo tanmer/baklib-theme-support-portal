@@ -1,0 +1,39 @@
+{
+  "theme_label": "Support-Portal",
+  "theme_description": "Support-Portal ist eine leistungsstarke und benutzerfreundliche Online-Support-Plattform, die eine Wissensdatenbank, Release-Protokolle, FAQ, Videos und Blogs umfasst",
+  "generic": {
+    "close": "Schließen",
+    "back": "Zurück",
+    "submit": "Senden",
+    "search": "Suchen",
+    "popular_search": "Beliebte Suche: ",
+    "index": "Index",
+    "articles": "Artikel",
+    "read_more": "Weiterlesen",
+    "404": "404 nicht gefunden",
+    "403": "403 Keine Zugriffsberechtigung",
+    "empty": "Inhalt ist leer",
+    "copyright": "Alle Rechte vorbehalten",
+    "hot_pages": "Beliebte Besuchsartikel",
+    "recent_pages": "Neueste Artikel",
+    "tags": "Tags",
+    "in_page_nav": "Seitennavigation",
+    "feedback": "Feedback",
+    "feedback_commit": "Inhalt",
+    "feedback_placeholder": "Bitte geben Sie Ihr Feedback ein",
+    "prev_page": "Vorherige",
+    "next_page": "Nächste"
+  },
+  "placeholders": {
+    "search": "Suche läuft...",
+    "input_password": "Bitte geben Sie Ihr Passwort ein"
+  },
+  "buttons": {
+    "login": "Anmelden",
+    "sso_login": "SSO-Anmeldung",
+    "baklib_login": "Baklib-Kontoanmeldung"
+  },
+  "prompts": {
+    "page_restricted": "Auf diese Seite kann nur mit Authentifizierung zugegriffen werden"
+  }
+}

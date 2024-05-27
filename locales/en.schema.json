@@ -1,0 +1,52 @@
+
+{
+  "settings_schema": {
+    "generic": {
+      "name": "Basic site information settings",
+      "header_name": "Header and footer menu",
+      "head_title": "Head HTML Settings",
+      "settings": {
+        "hero_image_url": {
+          "label": "Hero banner image",
+          "info": "For the help center index theme, size of 1900*600px is recommended."
+        },
+        "description": {
+          "label": "site description"
+        },
+        "hot_tags": {
+            "label": "Hot search keywords (please separate them with English commas 「,」)"
+        },
+        "copyright_info": {
+          "label": "Copyright Info",
+          "default": "All copyright served"
+        },
+        "header_menu_html": {
+          "label": "Header navigation menu"
+        },
+        "footer_menu_html": {
+          "label": "Footer navigation menu"
+        },
+        "head_html": {
+          "label": "Head HTML Code",
+          "info": "This part of the content will be embedded in the <head> tag of the site. Please use standard HTML format.",
+          "placeholder": "<meta name='author' content='Baklib' />"
+        }
+      }
+    },
+    "page": {
+      "name": "Page",
+      "description": "Document content page",
+      "settings": {
+        "title":{
+          "label": "Title"
+        },
+        "content":{
+          "label": "Content"
+        },
+        "tags":{
+          "label": "Tags"
+        }
+      }
+    }
+  }
+}

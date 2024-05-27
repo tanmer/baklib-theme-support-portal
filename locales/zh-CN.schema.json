@@ -1,0 +1,51 @@
+{
+  "settings_schema": {
+    "generic": {
+      "name": "站点基本信息设置",
+      "header_name": "页头页尾导航菜单",
+      "head_title": "Head HTML 配置",
+      "settings": {
+        "hero_image_url": {
+          "label": "首页背景大图",
+          "info": "用于部分主题首页的背景横幅，建议1900*600px的深色图片"
+        },
+        "description": {
+          "label": "站点描述"
+        },
+        "hot_tags": {
+            "label": "热搜关键词（请用英文逗号“,”分隔）"
+        },
+        "copyright_info": {
+          "label": "备案/版权信息",
+          "default": "蜀ICP备15035023号"
+        },
+        "header_menu_html": {
+          "label": "Header页头导航菜单"
+        },
+        "footer_menu_html": {
+          "label": "Footer页尾导航菜单"
+        },
+        "head_html": {
+          "label": "Head Meta HTML代码",
+          "info": "这部分内容会植入到站点的<head>标签内，请使用标准的 HTML 格式",
+          "placeholder": "<meta name='author' content='Baklib' />"
+        }
+      }
+    },
+    "page": {
+      "name": "页面",
+      "description": "文档内容页面",
+      "settings": {
+        "title":{
+          "label": "标题"
+        },
+        "content":{
+          "label": "内容"
+        },
+        "tags":{
+          "label": "标签"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{% assign pages = page.children_in_list | order_by: "-created_at" %}
+{% assign thumb = 'images/thumbnail.png' | asset_url %}
+<a name="changelog"></a>
+
+<!-- Page header -->
+<div class="mx-auto max-w-7xl px-4 pt-6 sm:px-8 lg:pt-12 lg:px-12">
+  <div class="flex flex-col w-full max-w-screen-xl mx-auto space-y-6 lg:justify-between lg:items-end lg:flex-row">
+    <div class="max-w-2xl">
+      <div class="flex items-center space-x-1">
+        {% if page.settings.icon %}
+          <span class="relative w-12 h-12 bg-secondary/20 rounded-full mr-2">
+            <img src="{{ page.settings.icon }}" class="h-10"/>
+          </span>
+        {% endif %}
+        <span class="block text-sm font-bold tracking-widest uppercase text-slate-600">{{ page.settings.title }}</span>
+      </div>
+      <h1 class="mt-3 text-4xl font-bold text-primary md:text-5xl">{{ page.settings.description }}</h1>
+    </div>
+  </div>
+</div>
+<!--/ Page header -->
+
+<!-- main content -->
+<main class="flex-1 px-4 pt-12 lg:pb-24 sm:px-8 lg:pt-12 lg:px-12">
+  <div class="mx-auto max-w-6xl space-y-12 border-l-4">
+    {%# 分页 %}
+    {% paginate_tag pages, per: 24 %}
+      {% for sub_page in pages %}
+        <!-- item -->
+        <div class="flex flex-col justify-between md:flex-row">
+          <div class="relative pt-4 pl-4 pr-6 mb-8 lg:w-72 md:order-1 md:mb-0 md:mt-12">
+            <span class="block text-xs font-bold tracking-widest uppercase md:mb-4 lg:text-sm text-slate-500 before:border-l-4 before:border-primary before:-left-[4px] before:top-[12px] before:absolute before:h-6">
+              {{ sub_page.settings.date }}
+            </span>
+          </div>
+          <div class="order-1 w-full md:order-2">
+            <div class="w-full max-w-3xl px-6 py-6 bg-white dark:bg-slate-900 rounded-md shadow-lg md:py-12 md:px-12 shadow-slate-300">
+                <h2 class="block w-full pt-1 text-2xl font-semibold text-left md:text-3xl lg:text-4xl text-slate-600  dark:text-navy-100">
+                  {{ sub_page.settings.title }}</h2>
+                {%- if page.settings.is_allow_thumb -%}
+                  <img src="{{ sub_page.settings.thumb_image_url | default: thumb }}" alt="{{ sub_page.settings.title }}" class="w-full object-cover max-h-[450px] mt-6 rounded-md transition-all duration-500 ease-in-out scale-100 hover:scale-110">
+                {%- endif -%}
+                <div class="mt-8 ProseMirror text-gray-500">
+                  {{ sub_page.settings.content }}
+                </div>
+                <a href="{{ sub_page.path }}" class="mt-4 text-primary">查看原文</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+      <!-- Pagination -->
+      {% render 'paginate', paginate: paginate %}
+    {% endpaginate_tag %}
+  </div>
+</main>
+<!--/ main content-->
+
+{% schema %}
+  {
+    "name": "Changelog",
+    "thumb_url": "images/theme/changelog.png",
+    "description": "更新日志时间轴显示",
+    "sub_page_templates": ["changelog_detail"],
+    "settings": [
+      {
+        "id": "title",
+        "type": "text",
+        "placeholder": "",
+        "label": "标题"
+      },
+      {
+        "id": "description",
+        "type": "textarea",
+        "label": "描述"
+      },
+      {
+          "id": "icon",
+          "type": "image_picker",
+          "ratio": "1:1",
+          "width": 60,
+          "label": "图标"
+      },
+      {
+        "id": "is_allow_thumb",
+        "type": "checkbox",
+        "label": "是否展示封面",
+        "default": true
+      },
+      {
+        "id": "recommend_to_index",
+        "type": "checkbox",
+        "label": "推荐到首页展示",
+        "default": false
+      }
+    ]
+  }
+{% endschema%}

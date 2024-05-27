@@ -1,0 +1,98 @@
+{% assign title = page.settings.title  %}
+<section class="bg-slate-100 dark:bg-slate-700">
+    <div class="px-6 py-8 mx-auto space-y-6 xl:px-12">
+        <div class="max-w-screen-xl px-6 py-8 mx-auto space-y-6 xl:px-12">
+        <div class="max-w-screen-md mx-auto">
+            <h2 class="text-2xl font-semibold text-center lg:text-4xl">{{ page.settings.title |  default: 'Frequently Asked Questions' }}</h2>
+            <p class="mt-2 text-sm text-center">{{ page.settings.description | default: 'We Are Here to Help'}}</p>
+            <div class="flex justify-center pt-6 pb-3 mt-5 space-x-3 lg:py-3">
+            <button class="flex items-center px-4 py-3 space-x-2 text-sm font-semibold leading-4 transition-colors duration-300 bg-blue-600 rounded-md hover:bg-blue-700 text-blue-50">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+                <span>
+                Chat <span class="hidden md:inline">with Support</span>
+                </span>
+            </button>
+            <button class="flex items-center px-4 py-3 space-x-2 text-sm font-semibold leading-4 text-gray-700 transition-colors duration-300 bg-gray-100 rounded-md hover:bg-gray-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                <span><span class="hidden md:inline">Create</span> Support Ticket</span>
+            </button>
+            </div>
+        </div>
+        {% comment %}
+            <div class="flex items-center justify-between space-x-4">
+                <form action="" class="relative flex-1">
+                <input type="text" placeholder="Search term..." class="block w-full py-3 pl-12 placeholder-gray-400 transition-colors duration-300 border-0 border-transparen peer focus:border-transparent ring-transparent focus:ring-transparent focus:ring-opacity-80  text-sm">
+                <button class="absolute flex items-center justify-center w-8 h-8 p-1 text-gray-600 transition-all duration-300 bg-transparent rounded-full left-3 top-2 hover:bg-gray-100 peer-focus:text-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </button>
+                </form>
+            </div>
+        {% endcomment %}
+
+        <div class="grid flex-1 gap-6 mt-6 xl:grid-cols-2">
+            {% assign pages = page.children_in_nav_menu %}
+            {% for sub_page in pages  %}
+                {% assign sub_page_count = sub_page.children | size %}
+                <a href="{{ sub_page.path }}" class="flex items-start justify-between px-4 pt-6 pb-3 transition-all duration-300 bg-white rounded-md shadow-sm shadow-gray-200 hover:-translate-y-1 hover:shadow-md ">
+                    <div class="flex items-start space-x-4">
+                        <div class="flex items-center justify-center w-12 h-12 text-primary bg-secondary/20 rounded-md md:w-16 md:h-16">
+                            {% if sub_page.settings.icon %}
+                                <img src="{{ sub_page.settings.icon }}" class="w-8 h-8"/>
+                            {% else %}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                                </svg>
+                            {% endif %}
+                        </div>
+                        <div class="flex-1">
+                            <span class="font-semibold text-gray-800">{{ sub_page.link_text }}</span>
+                            <span class="block mt-1 text-sm text-gray-700">{{ sub_page_count }} Articles</span>
+                            <span class="block mb-3 text-sm text-gray-600">Last edited a week ago by Danny Brown</span>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        </div>
+    </div>
+</section>
+
+{% schema %}
+    {
+        "name": "Knowledge Base",
+        "description": "the document page template",
+        "thumb_url": "images/theme/knowledge.png",
+        "sub_page_templates": ["support_detail"],
+        "settings": [
+            {
+                "id": "title",
+                "type": "text",
+                "label": "t:settings_schema.page.settings.title.label"
+            },
+            {
+                "id": "description",
+                "type": "textarea",
+                "label": "描述"
+            },
+            {
+                "id": "icon",
+                "type": "image_picker",
+                "ratio": "1:1",
+                "width": 60,
+                "label": "图标"
+            },
+            {
+                "id": "recommend_to_index",
+                "type": "checkbox",
+                "label": "推荐到首页展示",
+                "default": false
+            }
+        ]
+    }
+{% endschema %}

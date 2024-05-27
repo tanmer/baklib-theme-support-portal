@@ -1,0 +1,301 @@
+
+
+<header class="fixed w-full z-30">
+    <div class="absolute inset-0 bg-white border-b bg-opacity-70 border-slate-200 backdrop-blur -z-10 dark:bg-slate-900 dark:border-slate-800" aria-hidden="true"></div>
+    <div class="px-4 mx-auto max-w-7xl sm:px-6">
+        <div class="flex items-center justify-between h-16 md:h-20">
+
+            <!-- Site branding -->
+            <div class="grow">
+                <div class="flex items-center">
+                    <!-- Logo -->
+                    <a href="/" aria-label="{{ site.name }}" class="flex items-center flex-grow">
+                        {% assign logo = 'images/logo.png' | asset_url %}
+                        <span><img src="{{ site.favicon_url | default: logo }}" class="h-8" alt="Docs" /></span>
+                        <span class="hidden ml-2 text-2xl font-bold text-slate-600 dark:text-slate-200 md:block">{{ site.name }}</span>
+                    </a>
+                    <!-- Search (首页不用显示) -->
+                    {% if page.path != '/' %}
+                        <div class="ml-4 grow md:ml-8" x-data="handleSearch">
+                            <button
+                                class="w-full sm:w-[380px] text-[15px] bg-white text-slate-400 inline-flex items-center justify-between leading-5 pl-3 pr-2 py-[7px] rounded border border-slate-200 hover:border-slate-300 shadow-sm whitespace-nowrap dark:text-slate-500 dark:bg-slate-800 dark:border-slate-700 dark:hover:border-slate-600"
+                                @click.prevent="openSearch"
+                                @keydown.slash.window="openSearch"
+                                aria-controls="search-modal"
+                            >
+                                <div class="flex items-center justify-center">
+                                    <svg class="w-4 h-4 mr-3 fill-slate-500 shrink-0 dark:fill-slate-400" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="m14.707 13.293-1.414 1.414-2.4-2.4 1.414-1.414 2.4 2.4ZM6.8 12.6A5.8 5.8 0 1 1 6.8 1a5.8 5.8 0 0 1 0 11.6Zm0-2a3.8 3.8 0 1 0 0-7.6 3.8 3.8 0 0 0 0 7.6Z" />
+                                    </svg>
+                                    <span>{{ 'placeholders.search' | t}}<span class="hidden sm:inline"> </span>…</span>
+                                </div>
+                                <div class="flex items-center justify-center w-5 h-5 ml-3 font-medium border rounded shadow-sm text-slate-500 border-slate-200 dark:bg-slate-700 dark:text-slate-400 dark:border-slate-600">/</div>
+                            </button>
+
+                            <!-- Search modal -->
+                            <div>
+                                <!-- Modal backdrop -->
+                                <div
+                                    class="fixed inset-0 z-50 transition-opacity bg-slate-900 bg-opacity-20"
+                                    x-show="searchOpen"
+                                    x-transition:enter="transition ease-out duration-200"
+                                    x-transition:enter-start="opacity-0"
+                                    x-transition:enter-end="opacity-100"
+                                    x-transition:leave="transition ease-out duration-100"
+                                    x-transition:leave-start="opacity-100"
+                                    x-transition:leave-end="opacity-0"
+                                    aria-hidden="true"
+                                    x-cloak
+                                ></div>
+                                <!-- Modal dialog -->
+                                <div
+                                    id="search-modal"
+                                    class="fixed inset-0 z-50 flex items-start justify-center px-4 mb-4 overflow-hidden top-20 md:top-28 sm:px-6"
+                                    role="dialog"
+                                    aria-modal="true"
+                                    x-show="searchOpen"
+                                    x-transition:enter="transition ease-in-out duration-200"
+                                    x-transition:enter-start="opacity-0 translate-y-4"
+                                    x-transition:enter-end="opacity-100 translate-y-0"
+                                    x-transition:leave="transition ease-in-out duration-200"
+                                    x-transition:leave-start="opacity-100 translate-y-0"
+                                    x-transition:leave-end="opacity-0 translate-y-4"
+                                    x-cloak
+                                >
+                                    <div
+                                        class="w-full max-w-2xl max-h-full p-4 overflow-auto bg-white rounded shadow-lg dark:bg-slate-800"
+                                        @click.outside="closeSearch"
+                                        @keydown.escape.window="closeSearch"
+                                    >
+                                        <!-- Search form -->
+                                        {% form_tag 'search' %}
+                                            <div class="flex items-center">
+                                                <label for="modal-search">
+                                                    <span class="sr-only">Search</span>
+                                                    <svg class="w-4 h-4 ml-4 fill-slate-500 shrink-0 dark:fill-slate-400" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="m14.707 13.293-1.414 1.414-2.4-2.4 1.414-1.414 2.4 2.4ZM6.8 12.6A5.8 5.8 0 1 1 6.8 1a5.8 5.8 0 0 1 0 11.6Zm0-2a3.8 3.8 0 1 0 0-7.6 3.8 3.8 0 0 0 0 7.6Z" />
+                                                    </svg>
+                                                </label>
+                                                <input name="{{form.keywords_field_name}}" value="{{ search.keywords | escape_once }}"  id="modal-search" class="w-full py-3 pl-2 pr-4 text-sm bg-white border-0 appearance-none focus:ring-transparent placeholder-slate-400 dark:bg-slate-800 dark:placeholder:text-slate-500" type="search" placeholder="{{ 'placeholders.search' | t}}…" x-ref="searchInput" />
+                                            </div>
+                                        {% endform_tag %}
+                                        <div class="px-2 py-4 space-y-4">
+                                            <!-- Popular -->
+                                            <div>
+                                                <div class="px-2 mb-2 text-sm font-medium text-slate-500 dark:text-slate-400">{{ 'generic.hot_pages' | t }}</div>
+                                                {% comment %} 热门页面 {% endcomment %}
+                                                <ul>
+                                                    {% assign hot_pages = site.pages['/'].children | order_by: '-views_count' | limit: 5 %}
+                                                    {% for page in hot_pages %}
+                                                    <li>
+                                                        <a href="{{ page.path }}" class="flex items-center px-2 py-1 text-sm leading-6 rounded outline-none text-slate-800 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700 focus-within:bg-slate-100 dark:focus-within:bg-slate-700" >
+                                                            <svg class="w-3 h-3 mr-3 fill-slate-400 shrink-0 dark:fill-slate-500" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M11.953 4.29a.5.5 0 0 0-.454-.292H6.14L6.984.62A.5.5 0 0 0 6.12.173l-6 7a.5.5 0 0 0 .379.825h5.359l-.844 3.38a.5.5 0 0 0 .864.445l6-7a.5.5 0 0 0 .075-.534Z" />
+                                                            </svg>
+                                                            <span>{{ page.link_text }}</span>
+                                                        </a>
+                                                    </li>
+                                                    {% endfor %}
+
+                                                </ul>
+                                            </div>
+                                            <!-- Actions -->
+                                            <div>
+                                                <div class="px-2 mb-2 text-sm font-medium text-slate-500">{{ 'generic.popular_search' | t }}</div>
+                                                <div class="px-2 mb-2">
+                                                    {% assign hot_tags = site.settings.hot_tags | split: ',' %}
+                                                    {% for search_hot_key in hot_tags %}
+                                                        <a href="/-/search?q={{ search_hot_key }}" class="mr-3 text-primary hover:underline hover:text-primary-darken focus:ring">
+                                                            {{ search_hot_key }}
+                                                        </a>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Desktop navigation -->
+            <nav class="flex hidden lg:block">
+                <!-- Right side elements links -->
+                <ul class="flex flex-wrap items-center justify-end space-x-2 grow md:space-x-4">
+
+                    {% if site.settings.header_menu_html == "" %}
+                        {% assign nav_pages2 = site.pages['/'].children_in_nav_menu  | limit: 6 %}
+                        {% for nav_page in nav_pages2 %}
+                            <li><a href="{{ nav_page.path }}">{{ nav_page.link_text }}</a></li>
+                        {% endfor %}
+                    {% else %}
+                        {{ site.settings.header_menu_html }}
+                    {% endif %}
+
+                    <li>
+                        <!-- Desktop lights switch -->
+                        <div data-controller="theme" class="flex flex-col justify-center ">
+                            <input
+                                type="checkbox"
+                                name="light-switch"
+                                id="light-switch"
+                                class="sr-only light-switch"
+                                data-theme-target="checkbox"
+                                data-action="change->theme#toggle"
+                            >
+                            <label class="relative p-2 bg-slate-100 rounded-full cursor-pointer hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25" for="light-switch">
+                                <svg x-transition:enter="transition-transform duration-200 ease-out absolute origin-top" x-transition:enter-start="scale-75" x-transition:enter-end="scale-100 static" class="hidden w-5 h-5 text-primary dark:block" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M11.75 3.412a.818.818 0 01-.07.917 6.332 6.332 0 00-1.4 3.971c0 3.564 2.98 6.494 6.706 6.494a6.86 6.86 0 002.856-.617.818.818 0 011.1 1.047C19.593 18.614 16.218 21 12.283 21 7.18 21 3 16.973 3 11.956c0-4.563 3.46-8.31 7.925-8.948a.818.818 0 01.826.404z"></path>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" x-transition:enter="transition-transform duration-200 ease-out absolute origin-top" x-transition:enter-start="scale-75" x-transition:enter-end="scale-100 static" class="w-6 h-6 text-primary dark:hidden" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="sr-only">Switch to light / dark version</span>
+                            </label>
+                        </div>
+                    </li>
+
+                    {% if current_user %}
+                        <li>
+                            <div data-controller="dropdown" class="relative">
+                                <button type="button" data-action="dropdown#toggle click@window->dropdown#hide">
+                                {% if current_user.image %}
+                                    <img src="{{current_user.image}}" class="w-10 h-10 bg-slate-200 p-1 rounded-full">
+                                {% else %}
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10 text-slate-400 bg-slate-200 p-1 rounded-full">
+                                        <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
+                                    </svg>
+                                {% endif %}
+                                </button>
+                                <div
+                                    data-dropdown-target="menu"
+                                    class="hidden transition transform origin-top-right absolute z-50 right-0 rounded-md border border-slate-150 bg-white py-1.5 font-inter dark:border-navy-500 dark:bg-navy-700 px-2 min-w-[10rem] shadow-lg"
+                                    data-transition-enter-from="opacity-0 scale-95"
+                                    data-transition-enter-to="opacity-100 scale-100"
+                                    data-transition-leave-from="opacity-100 scale-100"
+                                    data-transition-leave-to="opacity-0 scale-95"
+                                >
+                                <div class="py-2">{{ current_user.name }}</div>
+                                {% form_tag 'sign_out' %}
+                                    <button type="submit" class="py-2 hover:text-primary">退出登录</button>
+                                {% endform_tag %}
+                                </div>
+                            </div>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+            <!-- mobile menu -->
+            <div class="relative lg:hidden" x-data="{ open: false }">
+                <!-- toggle menu -->
+                <button type="button" class="px-4 py-2 bg-white border-2 rounded-full border-zinc-100"  @click="open = !open">
+                    <span class="sr-only">Open Menu</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <!--/ toggle menu -->
+
+                <!-- menu overlay -->
+                <div
+                    class="fixed inset-0 z-50 p-4 transition-all origin-top-right bg-gradient-to-b from-gray-300 to-transparent bg-opacity-20"
+                    x-show="open"
+                    x-transition:enter="ease-out duration-50"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-100"
+                    x-transition:leave-end="opacity-0 "
+                >
+                    <div
+                    class="relative transition-all origin-top-right bg-white rounded shadow"
+                    x-transition:enter="ease-out duration-150 scale-75"
+                    x-transition:enter-start="opacity-0 -translate-y-2 scale-75"
+                    x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                    x-transition:leave="transition ease-in duration-200"
+                    x-transition:leave-end="opacity-0 -translate-y-2"
+                    @click.away="open = false"
+                    >
+                    <button type="button" class="absolute top-4 right-4"  @click="open = false">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                    <nav class="p-6">
+                        <span class="block mb-4 text-xs font-bold tracking-widest uppercase text-slate-500"></span>
+                        <ul class="grid grid-cols-2 gap-2 text-sm font-semibold md:grid-cols-4 text-slate-700 ">
+                            {% if site.settings.header_menu_html == "" %}
+                                {% assign nav_pages2 = site.pages['/'].children_in_nav_menu  | limit: 6 %}
+                                {% for nav_page in nav_pages2 %}
+                                    <li><a href="{{ nav_page.path }}">{{ nav_page.link_text }}</a></li>
+                                {% endfor %}
+                            {% else %}
+                                {{ site.settings.header_menu_html }}
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    <div class="px-6 py-4 rounded-b-md bg-slate-100">
+                        <div class="flex items-center justify-center space-x-4">
+                            {% if current_user %}
+                                <div class="flex items-center space-x-1 text-sm">
+                                    <div data-controller="dropdown" class="relative">
+                                        <button type="button" data-action="dropdown#toggle click@window->dropdown#hide" class="">
+                                            {% if current_user.image %}
+                                                <img src="{{current_user.image}}" class="w-8 h-8 rounded-full">
+                                            {% else %}
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 bg-slate-200 p-1">
+                                                    <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
+                                                </svg>
+                                            {% endif %}
+                                        </button>
+                                        <div
+                                            data-dropdown-target="menu"
+                                            class="hidden transition transform origin-top-right absolute z-50 right-0 rounded-md border border-slate-150 bg-white py-1.5 font-inter dark:border-navy-500 dark:bg-navy-700 px-2 min-w-[10rem] shadow-lg"
+                                            data-transition-enter-from="opacity-0 scale-95"
+                                            data-transition-enter-to="opacity-100 scale-100"
+                                            data-transition-leave-from="opacity-100 scale-100"
+                                            data-transition-leave-to="opacity-0 scale-95"
+                                        >
+                                        <div class="py-2">{{ current_user.name }}</div>
+                                        {% form_tag 'sign_out' %}
+                                            <button type="submit" class="py-2 hover:text-primary">退出登录</button>
+                                        {% endform_tag %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <span class="border-l-2 border-gray-300">&nbsp;</span>
+                            <!-- Mobile lights switch -->
+                            <div data-controller="theme" class="flex flex-col justify-center ">
+                                <input
+                                    type="checkbox"
+                                    name="light-switch"
+                                    id="light-switch"
+                                    class="sr-only light-switch"
+                                    data-theme-target="checkbox"
+                                    data-action="change->theme#toggle"
+                                >
+                                <label class="relative p-2 bg-slate-100 rounded-full cursor-pointer hover:bg-slate-300/20 focus:bg-slate-300/20 active:bg-slate-300/25 dark:hover:bg-navy-300/20 dark:focus:bg-navy-300/20 dark:active:bg-navy-300/25" for="light-switch">
+                                    <svg x-transition:enter="transition-transform duration-200 ease-out absolute origin-top" x-transition:enter-start="scale-75" x-transition:enter-end="scale-100 static" class="hidden w-5 h-5 text-primary dark:block" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M11.75 3.412a.818.818 0 01-.07.917 6.332 6.332 0 00-1.4 3.971c0 3.564 2.98 6.494 6.706 6.494a6.86 6.86 0 002.856-.617.818.818 0 011.1 1.047C19.593 18.614 16.218 21 12.283 21 7.18 21 3 16.973 3 11.956c0-4.563 3.46-8.31 7.925-8.948a.818.818 0 01.826.404z"></path>
+                                    </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" x-transition:enter="transition-transform duration-200 ease-out absolute origin-top" x-transition:enter-start="scale-75" x-transition:enter-end="scale-100 static" class="w-6 h-6 text-primary dark:hidden" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="sr-only">Switch to light / dark version</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <!--/ menu overlay-->
+            </div>
+
+        </div>
+    </div>
+</header>
+

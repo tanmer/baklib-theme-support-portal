@@ -1,0 +1,119 @@
+{% assign pages = site.pages['/'].children_in_nav_menu %}
+
+<div class="bg-accent/30 dark:bg-slate-700 sticky top-7">
+  <div class="py-4 mx-auto truncate max-w-7xl">
+    {% render 'breadcrumb', breadcrumb: page.breadcrumb %}
+  </div>
+</div>
+
+<div class="flex flex-col min-h-full bg-gray-50 dark:bg-slate-600">
+
+  <div class="flex-1 px-4 pt-4 lg:pb-24 sm:px-8 lg:pt-12 lg:px-12">
+    <div class="flex flex-col justify-between mx-auto max-w-3xl lg:max-w-7xl md:flex-row">
+
+      <!-- sidebar menu -->
+      <aside class="order-2 pt-4 pl-4 pr-6 mt-8 lg:w-96 md:order-1 md:mt-0 md:pl-0" id="sidebar">
+        <span class="block mb-4 text-xs font-bold tracking-widest uppercase text-slate-500">{{ page.link_text }}</span>
+        <!-- Docs nav -->
+        <nav class="space-y-3">
+          <ul class="">
+              {% for item in pages %}
+                  <!-- 1st level -->
+                  <li class="mb-1" x-data="{ open: true }">
+                  <div class="relative flex items-center justify-between p-1 {% if item.path == page.path %} font-semibold text-primary {% endif %}">
+                      <div class="flex">
+                          <svg class="w-4 h-4 mr-2 flex-0 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
+                              <path class="text-primary/50 {% if item.path == page.path %} text-primary {% endif %}" d="M5.5 3.5A1.5 1.5 0 0 1 7 2h2.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 1 .439 1.061V9.5A1.5 1.5 0 0 1 12 11V8.621a3 3 0 0 0-.879-2.121L9 4.379A3 3 0 0 0 6.879 3.5H5.5Z" />
+                              <path class="opacity-50 text-secondary" d="M4 5a1.5 1.5 0 0 0-1.5 1.5v6A1.5 1.5 0 0 0 4 14h5a1.5 1.5 0 0 0 1.5-1.5V8.621a1.5 1.5 0 0 0-.44-1.06L7.94 5.439A1.5 1.5 0 0 0 6.878 5H4Z" />
+                          </svg>
+                          <a href="{{ item.path }}">{{ item.link_text }}</a>
+                      </div>
+                      {% assign item_children_count = item.children_in_list | size %}
+                      {% if item_children_count > 0  %}
+                        <a href="#0" @click.prevent="open = !open" aria-haspopup="true" :aria-expanded="open">
+                          <svg class="ml-2 fill-slate-400 shrink-0" :class="{ 'rotate-90': open }" width="8" height="10" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M1 2 2.414.586 6.828 5 2.414 9.414 1 8l3-3z" />
+                          </svg>
+                        </a>
+                      {% endif %}
+                  </div>
+                  {% render 'tree', item:item, page: page %}
+                  </li>
+              {% endfor %}
+          </ul>
+        </nav>
+
+      </aside>
+      <!-- sidebar menu -->
+
+      <!-- main content -->
+      <main class="order-1 w-full md:order-2">
+        <div class="px-6 py-6 bg-white dark:bg-slate-600 dark:text-white rounded-md shadow-lg md:py-12 md:px-12 shadow-slate-200">
+          <h1 class="block w-full pt-1 text-xl font-semibold text-left md:text-3xl">
+            {{ page.settings.title }}
+          </h1>
+
+          <article class="p-4 text-lg leading-8 rounded-lg md:py-8 ProseMirror prose lg:prose-xl">
+            {{ page.settings.content }}
+          </article>
+
+          <!--Tags-->
+          {% if page.settings.tags.size > 0 %}
+            <div class="flex items-center py-4 mt-4 space-x-2 text-xs font-light md:mt-8 shrink-0 ">
+                <p>Tags: </p>
+                {% for tag in page.settings.tags %}
+                    <a href="{{ tag.path }}" style="background-color: {{ tag.color }}" class="px-2 py-1 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2">
+                    {{ tag.name }}
+                    </a>
+                {% endfor %}
+            </div>
+          {% endif %}
+
+          <!-- Feedback -->
+          <div class="py-8 lg:flex lg:items-center lg:justify-between">
+            <div class="text-lg font-bold text-slate-800 dark:text-slate-200">Feedback</div>
+            <div class="flex items-center space-x-4">
+              {% render "feedback_form", page: page %}
+            </div>
+          </div>
+
+          <!-- Sub Post Section -->
+
+        </div>
+      </main>
+      <!-- main content -->
+
+    </div>
+  </div>
+</div>
+
+
+<!--/ article-->
+{% schema %}
+    {
+    "name": "Page",
+    "thumb_url": "images/theme/page.png",
+    "description": "文章模板，固定的布局",
+    "sub_page_templates": ["page"],
+    "settings": [
+        {
+          "id": "title",
+          "type": "text",
+          "placeholder": "",
+          "label": "标题",
+          "info": "显示在正文上方的文章标题"
+        },
+        {
+          "id": "content",
+          "type": "richtext",
+          "label": "页面内容"
+        },
+        {
+          "id": "tags",
+          "type": "tag_picker",
+          "multiple": true,
+          "label": "标签"
+        }
+    ]
+    }
+{% endschema %}

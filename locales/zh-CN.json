@@ -1,0 +1,39 @@
+{
+  "theme_label": "Support Portal",
+  "theme_description": "Support Portal 是一个功能强大、操作简单的在线支持平台，包含知识库、发布日志、FAQ、视频、博客等。",
+  "generic": {
+    "close": "关闭",
+    "back": "返回",
+    "submit": "提交",
+    "search": "搜索",
+    "popular_search": "热门搜索：",
+    "index": "首页",
+    "articles": "篇文章",
+    "read_more": "阅读更多",
+    "404": "404 页面找不到",
+    "403": "403 无访问权限",
+    "empty": "内容为空",
+    "copyright": "版权所有",
+    "hot_pages": "热门话题",
+    "recent_pages": "最近更新",
+    "tags": "标签",
+    "in_page_nav": "页内导航",
+    "feedback": "提交反馈",
+    "feedback_commit": "内容",
+    "feedback_placeholder": "请输入反馈内容",
+    "prev_page": "上一页",
+    "next_page": "下一页"
+  },
+  "placeholders": {
+    "search": "站内搜索",
+    "input_password": "输入密码"
+  },
+  "buttons": {
+    "login": "登录",
+    "sso_login": "SSO 登录",
+    "baklib_login": "Baklib 账号登录"
+  },
+  "prompts": {
+    "page_restricted": "本页面需要认证才可以被访问"
+  }
+}

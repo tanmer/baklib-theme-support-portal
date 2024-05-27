@@ -1,0 +1,129 @@
+{% assign pages = page.children_in_list | order_by: "created_at" %}
+{% assign thumb = 'images/thumbnail.png' | asset_url %}
+<a name="videos"></a>
+
+<!-- Page header -->
+<div class="mx-auto max-w-7xl px-4 pt-6 sm:px-8 lg:pt-12 lg:px-12">
+  <div class="flex flex-col w-full max-w-screen-xl mx-auto space-y-6 lg:justify-between lg:items-end lg:flex-row">
+    <div class="max-w-2xl">
+      <div class="flex items-center space-x-1">
+        {% if page.settings.icon %}
+          <span class="relative w-12 h-12 bg-secondary/20 rounded-full mr-2">
+            <img src="{{ page.settings.icon }}" class="h-10"/>
+          </span>
+        {% endif %}
+        <span class="block text-sm font-bold tracking-widest uppercase text-slate-600">{{ page.settings.title }}</span>
+      </div>
+      <h1 class="mt-3 text-4xl font-bold text-primary md:text-5xl">{{ page.settings.description }}</h1>
+    </div>
+  </div>
+</div>
+<!--/ Page header -->
+
+<div class="relative">
+  <div class="mx-auto max-w-7xl px-6 lg:px-8 mb-8">
+    <div class="mx-auto mt-8 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+      {%# 分页 %}
+      {% paginate_tag pages, per: 24 %}
+        {% for sub_page in pages %}
+            <article class="flex flex-col items-start justify-between border rounded-xl">
+              <div class="relative w-full flex flex-col items-center justify-center">
+                {% render 'play_video', page: sub_page, thumb: thumb, video_type: page.settings.video_type.value %}
+              </div>
+              <div class="max-w-xl px-2">
+                <div class="mt-1 flex items-center gap-x-4 text-xs">
+                  {%- if page.settings.is_allow_published_at -%}
+                    <time datetime="{{ sub_page.published_at }}" class="text-gray-500">{{ sub_page.published_at | date: "%Y-%m-%d" }}</time>
+                  {%- endif -%}
+
+                  {% for tag in sub_page.settings.tags | limit: 3 %}
+                    <a href="{{ tag.path }}" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100 dark:bg-gray-300">#{{ tag.name }}</a>
+                  {% endfor %}
+                </div>
+                <div class="group relative">
+                  <h3 class="mt-2 text-lg font-semibold leading-6 group-hover:text-gray-600">
+                    <a href="{{ sub_page.path }}">
+                      <span class="absolute inset-0"></span>
+                      {{ sub_page.link_text }}
+                    </a>
+                  </h3>
+                </div>
+                {%- if page.settings.is_allow_author -%}
+                  <div class="relative my-2 flex items-center gap-x-2">
+                    <img src="{{ page.author.avatar_url }}" alt="" class="h-6 w-6 rounded-full bg-gray-100">
+                    <div class="text-sm leading-6">
+                      <p class="font-semibold">
+                        <a href="javascript:void(0);">
+                          <span class="absolute inset-0"></span>
+                          {{ page.author.name }}
+                        </a>
+                      </p>
+                    </div>
+                  </div>
+                {%- endif -%}
+              </div>
+            </article>
+        {% endfor %}
+        <!-- Pagination -->
+        {% render 'paginate', paginate: paginate %}
+      {% endpaginate_tag %}
+      <!-- More posts... -->
+    </div>
+  </div>
+</div>
+
+
+{% schema %}
+  {
+    "name": "Videos",
+    "thumb_url": "images/theme/videos.png",
+    "description": "视频栏目的首页",
+    "sub_page_templates": ["video_detail"],
+    "settings": [
+      {
+        "id": "title",
+        "type": "text",
+        "placeholder": "",
+        "label": "标题"
+      },
+      {
+        "id": "description",
+        "type": "textarea",
+        "label": "描述"
+      },
+      {
+        "id": "icon",
+        "type": "image_picker",
+        "ratio": "1:1",
+        "width": 60,
+        "label": "图标"
+      },
+      {
+        "id": "video_type",
+        "type": "radio",
+        "label": "视频格式",
+        "choices": [{"label":"桌面端宽视频（16:9）","value":"0"},{"label":"手机端长视频（9:16）","value":"1"}],
+        "default": "0",
+        "info": "* 在子页面上传的视频封面尺寸也应该按当前选择的尺寸适配"
+      },
+      {
+        "id": "is_allow_published_at",
+        "type": "checkbox",
+        "label": "是否展示发布日期",
+        "default": true
+      },
+      {
+        "id": "is_allow_author",
+        "type": "checkbox",
+        "label": "是否展示作者",
+        "default": true
+      },
+      {
+        "id": "recommend_to_index",
+        "type": "checkbox",
+        "label": "推荐到首页展示",
+        "default": false
+      }
+    ]
+  }
+{% endschema%}

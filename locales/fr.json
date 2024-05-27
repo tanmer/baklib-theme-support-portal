@@ -1,0 +1,39 @@
+{
+  "theme_label": "Portail d'assistance",
+  "theme_description": "Support Portal est une plateforme d'assistance en ligne puissante et facile à utiliser qui comprend une base de connaissances, des journaux de versions, une FAQ, des vidéos et des blogs",
+  "generic": {
+    "close": "Fermer",
+    "back": "retour",
+    "submit": "Soumettre",
+    "search": "Chercher",
+    "popular_search": "Recherche populaire",
+    "index": "Index",
+    "articles": "Articles",
+    "read_more": "Lire la suite",
+    "404": "404 introuvable",
+    "403": "403 Aucune autorisation d'accès",
+    "empty": "le contenu est vide",
+    "copyright": "Copyright Tous droits réservés",
+    "hot_pages": "Articles de visite chauds",
+    "recent_pages": "Articles récents",
+    "tags": "Balises",
+    "in_page_nav": "Navigation dans la page intérieure",
+    "feedback": "Commentaires",
+    "feedback_commit": "Contenu",
+    "feedback_placeholder": "Veuillez saisir vos commentaires",
+    "prev_page": "Précédent",
+    "next_page": "Suivant"
+  },
+  "placeholders": {
+    "search": "Recherche...",
+    "input_password": "Veuillez saisir votre mot de passe"
+  },
+  "buttons": {
+    "login": "Connexion",
+    "sso_login": "Connexion SSO",
+    "baklib_login": "Connexion au compte Baklib"
+  },
+  "prompts": {
+    "page_restricted": "Cette page n'est accessible qu'avec authentification"
+  }
+}
