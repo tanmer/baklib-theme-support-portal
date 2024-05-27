@@ -1,8 +1,8 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "support_portal_github",
-    "theme_label": "Support Portal 在线支持门户",
+    "theme_name": "docs",
+    "theme_label": "t:theme_label",
     "theme_version": "1.0.0",
     "theme_scope": "cms",
     "theme_author": "Baklib",
